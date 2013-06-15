@@ -1,11 +1,20 @@
 **gaenv** - Command line utility for managing appengine thirdparty packages
 
+Installation::
+
+    $ sudo pip install gaenv
+
+Or download directly at [PyPI](https://pypi.python.org/pypi/gaenv)
+
+
 Example Usage::
 
     Create a requirements.txt and put all requirements then run
     $ gaenv
     For more
     $ gaenv -h
+    or with python extracted source
+    python gaenv -h
     
 Note that this not run "pip install -r requirements.txt" so you'll have to run it manually first before running this.
 
