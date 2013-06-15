@@ -14,7 +14,7 @@ Example Usage::
     For more
     $ gaenv -h
     or with python extracted source
-    python gaenv -h
+    python gaenv-0.x.x/ggaenv -h
     
 Note that this not run "pip install -r requirements.txt" so you'll have to run it manually first before running this.
 

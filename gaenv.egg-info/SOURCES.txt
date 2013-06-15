@@ -1,7 +1,7 @@
-README.rst
 setup.cfg
 setup.py
 gaenv/__init__.py
+gaenv/__main__.py
 gaenv.egg-info/PKG-INFO
 gaenv.egg-info/SOURCES.txt
 gaenv.egg-info/dependency_links.txt
