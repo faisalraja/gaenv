@@ -1,4 +1,5 @@
-**gaenv** - Command line utility for managing appengine thirdparty packages
+gaenv - Command line utility for managing appengine thirdparty packages
+------------------
 
 Installation::
 
