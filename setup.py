@@ -10,7 +10,7 @@ def main():
     setup(name='gaenv',
           version=version,
           description="Tool for manage packages for google app engine",
-          long_description=open('README.rst').read(),
+          long_description=open('README.md').read(),
           classifiers=[],
           keywords='app engine google tool',
           author='Faisal Raja',
