@@ -9,10 +9,16 @@ version = '0.1.4'
 def main():
     setup(name='gaenv',
           version=version,
-          description="Tool for manage packages for google app engine",
+          description="Tool to manage packages for google app engine",
           long_description=open('README.rst').read(),
-          classifiers=[],
-          keywords='app engine google tool',
+          classifiers=[
+              'Development Status :: 3 - Alpha',
+              'Environment :: Console',
+              'Intended Audience :: Developers',
+              'Programming Language :: Python',
+              'License :: OSI Approved :: MIT License'
+          ],
+          keywords='google app engine environment tool',
           author='Faisal Raja',
           author_email='support@altlimit.com',
           url='http://github.com/faisalraja/gaenv',
