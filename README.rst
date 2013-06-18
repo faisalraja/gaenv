@@ -1,24 +1,30 @@
 gaenv - Command line utility for managing appengine thirdparty packages
-------------------
+***********************************************************************
 
-Installation::
+Install
+=======
 
-    $ sudo pip install gaenv
+Simply run the following::
 
-Or download directly at [PyPI](https://pypi.python.org/pypi/gaenv)
+    $ python setup.py install
+
+or `PyPi`_::
+
+    $ pip install reststore
 
 
-Example Usage::
+Example Usage
+=============
+
+Note that this not run "pip install -r requirements.txt" so you'll have to run it manually first before running this::
 
     Create a requirements.txt and put all requirements then run
     $ gaenv
     For more
     $ gaenv -h
     or with python extracted source
-    python gaenv-0.x.x/ggaenv -h
+    $ python gaenv-0.x.x/ggaenv -h
     
-Note that this not run "pip install -r requirements.txt" so you'll have to run it manually first before running this.
-
 
 This will create symbolic links from your default python version packages to
 the current directory that you execute it on. By default it will create
@@ -26,4 +32,21 @@ gaenv_lib folder with all packages in your requirements.txt and will
 ask you if you want this utility to insert the import statement that updates
 your sys.path, or you can just do it manually.
 
-If you have questions/suggestions you can contact me at [contact form here](http://www.altlimit.com)
+Change log
+==========
+
+0.1.4 (2013-06-15)
+
+ * added run from source
+
+0.1 (2013-06-13)
+
+
+Links
+=====
+* `github.com`_ - source code
+* `altlimit.com`_ - website
+
+.. _github.com: https://github.com/faisalraja/gaenv
+.. _PyPi: https://pypi.python.org/pypi/gaenv
+.. _altlimit.com: http://www.altlimit.com
