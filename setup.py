@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 import sys
 import os
 
-version = '0.1.4'
+version = '0.1.5'
 
 
 def main():
@@ -23,7 +23,7 @@ def main():
           author_email='support@altlimit.com',
           url='http://github.com/faisalraja/gaenv',
           license='MIT',
-          packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
+          packages=['setuptools'],
           include_package_data=True,
           zip_safe=False,
           install_requires=[],

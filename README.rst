@@ -35,6 +35,10 @@ your sys.path, or you can just do it manually.
 Change log
 ==========
 
+0.1.5 (2013-06-25)
+
+ * improved lookup using setuptools
+
 0.1.4 (2013-06-15)
 
  * added run from source
