@@ -23,10 +23,10 @@ def main():
           author_email='support@altlimit.com',
           url='http://github.com/faisalraja/gaenv',
           license='MIT',
-          packages=['setuptools'],
+          packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
           include_package_data=True,
           zip_safe=False,
-          install_requires=[],
+          install_requires=['setuptools'],
           entry_points={
               "console_scripts": ['gaenv = gaenv:main'],
           },
