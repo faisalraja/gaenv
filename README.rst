@@ -10,7 +10,7 @@ Simply run the following::
 
 or `PyPi`_::
 
-    $ pip install reststore
+    $ pip install gaenv
 
 
 Example Usage
@@ -23,7 +23,7 @@ Note that this not run "pip install -r requirements.txt" so you'll have to run i
     For more
     $ gaenv -h
     or with python extracted source
-    $ python gaenv-0.x.x/ggaenv -h
+    $ python gaenv-0.x.x/gaenv -h
     
 
 This will create symbolic links from your default python version packages to
