@@ -49,7 +49,6 @@ def main():
         if dist.has_metadata('dependency_links.txt'):
             links.extend(dist.get_metadata_lines('dependency_links.txt'))
 
-
     # Now we create the links
     if links:
         libs = os.path.join(current_path, args.lib)
@@ -73,41 +72,25 @@ def main():
 
             print 'Found and linked: %s' % link
 
-        print 'Note that this can damage your python source, make sure you have appropriate precaution for undoing.'
-        add_import = raw_input('Do you want to auto detect and insert imports? [yN]:').lower()
+        add_import = raw_input('Do you want to inject import to appengine_config.py?:').lower()
         if add_import == 'y':
-            yaml_file = os.path.join(current_path, 'app.yaml')
-            if not os.path.exists(yaml_file):
-                print 'No app.yaml found'
+            appengine_config = os.path.join(current_path, 'appengine_config.py')
+            if not os.path.exists(appengine_config):
+                print 'Creating %s' % appengine_config
+                source_code = ''
             else:
-                replace = []
-                # Find entry point scripts base on app.yaml
-                with open(yaml_file, 'r') as f:
-                    for line in f:
-                        if 'script:' in line:
-                            detect = line.strip().split(' ').pop().split('.')
-                            detect.pop()
-                            possible_path = os.path.join(current_path, *detect)
-                            if os.path.isfile(possible_path + '.py'):
-                                replace.append(possible_path + '.py')
-                            elif os.path.isdir(possible_path) and \
-                                    os.path.isfile(os.path.join(possible_path, '__init__.py')):
-                                replace.append(os.path.join(possible_path, '__init__.py'))
+                print 'Updating %s' % appengine_config
+                with open(appengine_config, 'r') as f:
+                    source_code = f.read()
 
-                if replace:
-                    # Replace if there is no import
-                    import_statement = 'import %s' % args.lib
-                    for r in replace:
-                        with open(r, 'r') as f:
-                            source_code = f.read()
-                        if import_statement not in source_code:
-                            with open(r, 'wb') as f:
-                                f.write(source_code.replace('import', import_statement + '\nimport', 1))
-                                print 'added [%s] in [%s]' % (import_statement, r)
-                        else:
-                            print 'already exists in [%s] skipping' % r
-
-        print 'Done, make sure you have import %s, on your script handlers.' % args.lib
+            # Replace if there is no import
+            import_statement = 'import %s' % args.lib
+            if import_statement not in source_code:
+                with open(appengine_config, 'wb') as f:
+                    f.write(import_statement + '\n' + source_code)
+                    print 'added [%s] in [%s]' % (import_statement, appengine_config)
+            else:
+                print 'already exists in [%s] skipping' % appengine_config
 
 
 if __name__ == "__main__":

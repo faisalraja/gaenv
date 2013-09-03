@@ -35,6 +35,10 @@ your sys.path, or you can just do it manually.
 Change log
 ==========
 
+0.1.6 (2013-09-03)
+
+ * switched to appengine_config.py sys.path
+
 0.1.5 (2013-06-25)
 
  * improved lookup using setuptools
