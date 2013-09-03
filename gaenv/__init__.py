@@ -72,7 +72,7 @@ def main():
 
             print 'Found and linked: %s' % link
 
-        add_import = raw_input('Do you want to inject import to appengine_config.py?:').lower()
+        add_import = raw_input('Do you want to inject import to appengine_config.py? [yN]:').lower()
         if add_import == 'y':
             appengine_config = os.path.join(current_path, 'appengine_config.py')
             if not os.path.exists(appengine_config):
