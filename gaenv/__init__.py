@@ -45,18 +45,35 @@ def main():
         exit(0)
 
     with open(requirement_path, 'r') as file:
-        try:
-            requirements = [req for req in pkg_resources.parse_requirements(file.read())]
-        except ValueError as e:
-            print e
-            print 'Invalid requirements file. Aborting...'
-            exit()
+        requirements = file.readlines()
+        pypi_requirements = []
+        cvs_requirements = []
+        for requirement in requirements:
+            if requirement.find('+') == -1:
+                pypi_requirements.append(requirement.strip())
+            else:
+                cvs_requirements.append(requirement.strip())
+        requirements = [req for req in pkg_resources.parse_requirements(os.linesep.join(pypi_requirements))]
+
+    # todo temp fix until https://github.com/pypa/pip/issues/1083 issue is fixed
+    if cvs_requirements:
+        for requirement in cvs_requirements:
+            egg = re.findall('egg=([^&]+)', requirement)
+            if egg:
+                try:
+                    requirements.append(pkg_resources.get_distribution(egg.pop()))
+                except pkg_resources.DistributionNotFound:
+                    print 'Please install [%s]' % requirement
+    # end repo temp fix
 
     links = []
     package_path = get_python_lib()
     for requirement in requirements:
         try:
-            dist = pkg_resources.get_provider(requirement)
+            if isinstance(requirement, pkg_resources.Distribution):
+                dist = requirement
+            else:
+                dist = pkg_resources.get_provider(requirement)
         except pkg_resources.DistributionNotFound:
             print 'Please install [%s]' % requirement
             continue
@@ -75,6 +92,10 @@ def main():
         libs = os.path.join(current_path, args.lib)
         if not os.path.exists(libs):
             os.makedirs(libs)
+        else:
+            # delete contents
+            for f in os.listdir(libs):
+                os.unlink(os.path.join(libs, f))
 
         with open(os.path.join(libs, '__init__.py'), 'wb') as f:
             f.write(sys_path_build)
@@ -91,26 +112,26 @@ def main():
             if os.path.exists(symlink) and not os.path.exists(dest):
                 create_symlink(symlink, dest)
 
-            print 'Found and linked: %s' % link
+            print 'Linked: {}'.format(link)
 
         if not args.no_import:
             appengine_config = os.path.join(current_path, 'appengine_config.py')
             if not os.path.exists(appengine_config):
-                print 'Creating %s' % appengine_config
+                print 'Created {}'.format(appengine_config)
                 source_code = ''
             else:
-                print 'Updating %s' % appengine_config
+                print 'Updated {}'.format(appengine_config)
                 with open(appengine_config, 'r') as f:
                     source_code = f.read()
 
             # Replace if there is no import
-            import_statement = 'import %s' % args.lib
+            import_statement = 'import {}'.format(args.lib)
             if import_statement not in source_code:
                 with open(appengine_config, 'wb') as f:
                     f.write(import_statement + '\n' + source_code)
-                    print 'added [%s] in [%s]' % (import_statement, appengine_config)
+                    print 'Added [{}] in [{}]'.format(import_statement, appengine_config)
             else:
-                print 'already exists in [%s] skipping' % appengine_config
+                print 'Skipped import on [{}] exists'.format(appengine_config)
 
 
 if __name__ == "__main__":
