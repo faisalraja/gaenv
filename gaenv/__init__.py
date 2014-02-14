@@ -45,15 +45,12 @@ def main():
         exit(0)
 
     with open(requirement_path, 'r') as file:
-        requirements = file.readlines()
-        pypi_requirements = []
-        cvs_requirements = []
-        for requirement in requirements:
-            if requirement.find('+') == -1:
-                pypi_requirements.append(requirement.strip())
-            else:
-                cvs_requirements.append(requirement.strip())
-        requirements = [req for req in pkg_resources.parse_requirements(os.linesep.join(pypi_requirements))]
+        try:
+            requirements = [req for req in pkg_resources.parse_requirements(file.read())]
+        except ValueError as e:
+            print e
+            print 'Invalid requirements file. Aborting...'
+            exit()
 
     links = []
     package_path = get_python_lib()
@@ -72,9 +69,6 @@ def main():
 
         if dist.has_metadata('dependency_links.txt'):
             links.extend(dist.get_metadata_lines('dependency_links.txt'))
-
-    if cvs_requirements:
-        print 'Found repo requirements: {}\nRepo installs are not symlinked yet.'.format(cvs_requirements)
 
     # Now we create the links
     if links:
