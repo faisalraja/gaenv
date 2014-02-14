@@ -35,6 +35,12 @@ your sys.path, or you can just do it manually.
 Change log
 ==========
 
+0.1.7
+
+ * bug fix on git repo on requirements.txt
+ * symlink fix for windows
+ * added --no-import to skip auto import statement
+
 0.1.6 (2013-09-03)
 
  * switched to appengine_config.py sys.path
