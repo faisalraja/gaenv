@@ -1,11 +1,17 @@
 #!/usr/bin/env python
 '''
-Utility to create python package symlinks for deployment in GAE.
+Utility to create python package symlinks for deployment in GAE. Before running this script, you must run pip install <requirements>.
+
+Usage: gaenv [options]
+    -r --requirements=FILE		Specify the requirements file to use.
+                                        Defaults to requirements.txt.
+    -l --lib=DIR			Change the the output dir. Default is gaenv_lib.
+    -n --no-import			Will not add import statement to appengine_config.py.
 '''
 from distutils.sysconfig import get_python_lib
+from docopt import docopt
 import os
 import inspect
-import argparse
 import re
 import pkg_resources
 import sys
@@ -16,43 +22,24 @@ import sys
 import os
 sys.path.insert(0, os.path.dirname(__file__))"""
 
-
-def create_symlink(source, link_name):
-    os_symlink = getattr(os, "symlink", None)
-    if callable(os_symlink):
-        os_symlink(source, link_name)
-    else:
-        csl = ctypes.windll.kernel32.CreateSymbolicLinkW
-        csl.argtypes = (ctypes.c_wchar_p, ctypes.c_wchar_p, ctypes.c_uint32)
-        csl.restype = ctypes.c_ubyte
-        flags = 1 if os.path.isdir(source) else 0
-        if csl(link_name, source, flags) == 0:
-            raise ctypes.WinError()
-
-
 def main():
-    parser = argparse.ArgumentParser(description='Command line utility for managing appengine thirdparty packages')
-    parser.add_argument('--requirements', type=str, default='requirements.txt',
-                        help='specify the requirements file default(requirements.txt)')
-    parser.add_argument('--lib', type=str, default='gaenv_lib',
-                        help='change the output dir, default is gaenv_lib')
-    parser.add_argument('--no-import', action='store_true',
-                        help='will not add import statement on appengine_config.py')
-    args = parser.parse_args()
+    args = docopt(__doc__, version='Gaenv 1.0')
 
+
+    return
     current_path = os.getcwd()
-    requirement_path = get_requirements_path(current_path, args.requirements)
+    requirement_path = get_requirements_path(current_path, args['--requirements'])
     pypi_requirements, cvs_requirements = compute_requirements(requirement_path)
     requirements = parse_requirements(pypi_requirements, cvs_requirements)
 
     links = compute_package_links(requirements)
     if links:
-        libs_directory = create_libs_directory(current_path, args.lib)
+        libs_directory = create_libs_directory(current_path, args['--lib'])
         create_package_links(libs_directory, links)
-        if not args.no_import:
+        if not args['--no-import']:
             appengine_config_path = os.path.join(current_path, 'appengine_config.py')
             config_source = get_appengine_config(appengine_config_path)
-            add_import(appengine_config_path, config_source, args.lib)
+            add_import(appengine_config_path, config_source, args['--lib'])
 
 def get_requirements_path(current_path, requirements_file):
     requirement_path = os.path.join(current_path, requirements_file)
@@ -164,6 +151,18 @@ def add_import(appengine_config, config_source, libs):
             print 'Added [{}] in [{}]'.format(import_statement, appengine_config)
     else:
         print 'Skipped import on [{}] exists'.format(appengine_config)
+
+def create_symlink(source, link_name):
+    os_symlink = getattr(os, "symlink", None)
+    if callable(os_symlink):
+        os_symlink(source, link_name)
+    else:
+        csl = ctypes.windll.kernel32.CreateSymbolicLinkW
+        csl.argtypes = (ctypes.c_wchar_p, ctypes.c_wchar_p, ctypes.c_uint32)
+        csl.restype = ctypes.c_ubyte
+        flags = 1 if os.path.isdir(source) else 0
+        if csl(link_name, source, flags) == 0:
+            raise ctypes.WinError()
 
 def read_file(filename):
     with open(filename, 'r') as input_file:
