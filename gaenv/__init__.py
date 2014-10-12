@@ -3,10 +3,11 @@
 Utility to create python package symlinks for deployment in GAE. Before running this script, you must run pip install <requirements>.
 
 Usage: gaenv [options]
-    -r --requirements=FILE		Specify the requirements file to use.
-                                        Defaults to requirements.txt.
-    -l --lib=DIR			Change the the output dir. Default is gaenv_lib.
-    -n --no-import			Will not add import statement to appengine_config.py.
+
+Options:
+    -r --requirements=FILE		Specify the requirements  [default: requirements.txt]
+    -l --lib=DIR                        Change the the output dir [default: gaenv_lib]
+    -n --no-import			Will not add import statement to appengine_config.py
 '''
 from distutils.sysconfig import get_python_lib
 from docopt import docopt
@@ -23,8 +24,7 @@ import os
 sys.path.insert(0, os.path.dirname(__file__))"""
 
 def main():
-    args = docopt(__doc__, version='Gaenv 1.0')
-
+    args = docopt(__doc__, version='gaenv 1.0')
     current_path = os.getcwd()
     requirement_path = get_requirements_path(current_path, args['--requirements'])
     pypi_requirements, cvs_requirements = compute_requirements(requirement_path)
@@ -43,7 +43,7 @@ def get_requirements_path(current_path, requirements_file):
     requirement_path = os.path.join(current_path, requirements_file)
     if not os.path.exists(requirement_path):
         print 'requirements file %s not found' % requirement_path
-        exit(0)
+        sys.exit(1)
     return requirement_path
 
 def compute_requirements(requirement_path):
