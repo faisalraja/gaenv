@@ -24,7 +24,7 @@ Note that this not run "pip install -r requirements.txt" so you'll have to run i
     $ gaenv -h
     or with python extracted source
     $ python gaenv-0.x.x/gaenv -h
-    
+
 
 This will create symbolic links from your default python version packages to
 the current directory that you execute it on. By default it will create
@@ -34,6 +34,10 @@ your sys.path, or you can just do it manually.
 
 Change log
 ==========
+
+0.1.8 (2014-10-12)
+ * Allows for recursive requirements files via the -r flag
+ * Correctly ignores other pip flags within requiremenst files
 
 0.1.7
 
