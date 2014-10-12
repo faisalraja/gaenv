@@ -25,8 +25,6 @@ sys.path.insert(0, os.path.dirname(__file__))"""
 def main():
     args = docopt(__doc__, version='Gaenv 1.0')
 
-
-    return
     current_path = os.getcwd()
     requirement_path = get_requirements_path(current_path, args['--requirements'])
     pypi_requirements, cvs_requirements = compute_requirements(requirement_path)
