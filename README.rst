@@ -36,6 +36,7 @@ Change log
 ==========
 
 0.1.8 (2014-10-12)
+
  * Allows for recursive requirements files via the -r flag
  * Correctly ignores other pip flags within requiremenst files
 
