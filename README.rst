@@ -35,6 +35,10 @@ your sys.path, or you can just do it manually.
 Change log
 ==========
 
+0.1.9 (2015-07-27)
+
+ * Added -c copy option instead of symlink (thanks hnovikov)
+
 0.1.8 (2014-10-12)
 
  * Allows for recursive requirements files via the -r flag
