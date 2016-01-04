@@ -10,7 +10,6 @@ Options:
     -n --no-import			Will not add import statement to appengine_config.py
     -c --copy				Copy libraries instead of symlinking
 """
-from distutils.sysconfig import get_python_lib
 from docopt import docopt
 import os
 import re
@@ -26,7 +25,7 @@ sys.path.insert(0, os.path.dirname(__file__))"""
 
 
 def main():
-    args = docopt(__doc__, version='gaenv 0.1.9')
+    args = docopt(__doc__, version='gaenv 0.1.10')
     current_path = os.getcwd()
     requirement_path = get_requirements_path(current_path, args['--requirements'])
     pypi_requirements, cvs_requirements = compute_requirements(requirement_path)
@@ -124,20 +123,21 @@ def create_libs_directory(current_path, lib_directory, delete_contents=True):
 def create_package_links(libs, links, create_link=None):
     if not create_link:
         create_link = create_symlink
-    package_path = get_python_lib()
+    package_paths = [f for f in sys.path if f.endswith('packages')]
     for link in links:
         link = link.strip()
-        symlink = os.path.join(package_path, link)
-        if not os.path.exists(symlink) and os.path.exists(symlink + '.py'):
-            symlink += '.py'
-            dest = os.path.join(libs, link + '.py')
-        else:
-            dest = os.path.join(libs, link)
+        for package_path in package_paths:
+            symlink = os.path.join(package_path, link)
+            if not os.path.exists(symlink) and os.path.exists(symlink + '.py'):
+                symlink += '.py'
+                dest = os.path.join(libs, link + '.py')
+            else:
+                dest = os.path.join(libs, link)
 
-        if os.path.exists(symlink):
-            create_link(symlink, dest)
-
-        print 'Linked: {}'.format(link)
+            if os.path.exists(symlink):
+                create_link(symlink, dest)
+                print 'Linked: {}'.format(link)
+                break
 
 
 def get_appengine_config(config_path):

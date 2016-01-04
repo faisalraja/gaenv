@@ -35,6 +35,10 @@ your sys.path, or you can just do it manually.
 Change log
 ==========
 
+0.1.10 (2016-01-04)
+
+ * Improved package lookup (fixed ubuntu/linux)
+
 0.1.9 (2015-07-27)
 
  * Added -c copy option instead of symlink (thanks hnovikov)
