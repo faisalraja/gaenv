@@ -1,6 +1,9 @@
 gaenv - Command line utility for managing appengine thirdparty packages
 ***********************************************************************
 
+NOTE: I have discontinued this project and started using the official vendoring from their docs at
+https://cloud.google.com/appengine/docs/python/tools/using-libraries-python-27
+
 Install
 =======
 
