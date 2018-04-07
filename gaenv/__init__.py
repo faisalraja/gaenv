@@ -5,10 +5,10 @@ Utility to create python package symlinks for deployment in GAE. Before running 
 Usage: gaenv [options]
 
 Options:
-    -r --requirements=FILE		Specify the requirements  [default: requirements.txt]
-    -l --lib=DIR                        Change the the output dir [default: gaenv_lib]
-    -n --no-import			Will not add import statement to appengine_config.py
-    -c --copy				Copy libraries instead of symlinking
+    -r --requirements=FILE      Specify the requirements  [default: requirements.txt]
+    -l --lib=DIR                Change the the output dir [default: gaenv_lib]
+    -n --no-import              Will not add import statement to appengine_config.py
+    -c --copy                   Copy libraries instead of symlinking
 """
 from docopt import docopt
 import os
